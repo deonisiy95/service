@@ -13,9 +13,9 @@ router.post('/refresh-tokens', auth.refreshToken);
 router.post('/singup', auth.singUp);
 
 // orders
-router.get('/orders', order.getAll);
-router.post('/orders', order.create);
-router.put('/orders/:id', order.put);
-router.delete('/orders/:id', order.remove);
+router.get('/orders', authMiddleware, order.getAll);
+router.post('/orders', authMiddleware, order.create);
+router.put('/orders/:id', authMiddleware, order.put);
+router.delete('/orders/:id', authMiddleware, order.remove);
 
 module.exports = router;

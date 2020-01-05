@@ -13,6 +13,9 @@ module.exports = (req, res, next) => {
       res.status(401).json({message: 'Invalid token!'});
       return;
     }
+    if (payload.userId) {
+      req.userId = payload.userId;
+    }
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       res.status(401).json({message: 'Token expired!'});
