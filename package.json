@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "PORT=3000 && node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,18 @@
   "bugs": {
     "url": "https://github.com/deonisiy95/service/issues"
   },
-  "homepage": "https://github.com/deonisiy95/service#readme"
+  "homepage": "https://github.com/deonisiy95/service#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "micromq": "^3.0.2",
+    "mongoose": "^5.8.2",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
+  }
 }

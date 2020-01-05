@@ -1,0 +1,85 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "tsconfigRootDir": ".",
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "experimentalDecorators": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "globals": {
+    "VoxImplant": true
+  },
+  "rules": {
+    "no-console": 0,
+    "no-unused-vars": 1,
+    "no-useless-constructor": 0,
+    "react/jsx-uses-react": "error",
+    "semi": ["warn"],
+    "prefer-const": ["warn"],
+    "padded-blocks": ["warn"],
+    "react/jsx-no-comment-textnodes": "error",
+    "react/jsx-uses-vars": [2],
+    "comma-dangle": "off",
+    "max-len": ["error", 100],
+    "indent": ["warn", 2],
+    "quotes": ["warn", "single"],
+    "camelcase": ["warn"],
+    "eqeqeq": ["warn"],
+    "newline-before-return": ["off"],
+    "no-case-declarations": ["off"],
+    "no-invalid-this": "warn",
+    "require-jsdoc": ["off"],
+    "spaced-comment": ["warn"],
+    "quote-props": ["error", "as-needed", {"unnecessary": false}],
+    "operator-linebreak": ["warn"],
+    "linebreak-style": "off",
+    "arrow-parens": ["warn"],
+    "guard-for-in": "warn",
+    "no-prototype-builtins": "warn",
+    "@typescript-eslint/no-explicit-any": ["warn"],
+    "@typescript-eslint/ban-ts-ignore": ["warn"],
+    "@typescript-eslint/explicit-function-return-type": ["off"],
+    "@typescript-eslint/interface-name-prefix": ["warn", "always"],
+    "@typescript-eslint/no-empty-interface": ["warn"],
+    "@typescript-eslint/no-var-requires": ["off"],
+    "@typescript-eslint/no-inferrable-types": ["warn"],
+    "@typescript-eslint/member-delimiter-style": ["warn"],
+    "prefer-rest-params": ["warn"],
+    "one-var": ["warn"],
+    "no-var": ["warn"],
+    "react/no-string-refs": ["warn"],
+    "block-spacing": ["warn", "never"],
+    "object-curly-spacing": ["warn", "never"],
+    "space-before-function-paren": ["warn", "never"]
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "google",
+    // Отключаем правила из базового набора
+    "plugin:@typescript-eslint/eslint-recommended",
+    // Базовые правила для TypeScript
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
