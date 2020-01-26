@@ -11,7 +11,7 @@ const create = (req, res) => {
   const {name, details, broadcasting} = req.body;
   const {userId} = req;
   if (!name || !broadcasting || !userId) {
-    res.status(401).json({message: 'Invalid params!'});
+    res.status(400).json({message: 'Invalid params!'});
     return;
   }
   Order.create({
@@ -26,14 +26,14 @@ const put = (req, res) => {
   Order.findOneAndUpdate({_id: req.params.id, userId: req.userId}, req.body)
     .exec()
     .then(() => res.json({success: true}))
-    .catch(e => res.status(401).json({message: 'Order not exist!'}));
+    .catch(e => res.status(400).json({message: 'Order not exist!'}));
 };
 
 const remove = (req, res) => {
   Order.deleteOne({_id: req.params.id, userId: req.userId})
     .exec()
     .then(() => res.json({success: true}))
-    .catch(e => res.status(401).json({message: 'Order not exist!'}));
+    .catch(e => res.status(400).json({message: 'Order not exist!'}));
 };
 
 module.exports = {

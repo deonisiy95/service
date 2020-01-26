@@ -4,8 +4,8 @@ const auth = require('./src/controllers/auth');
 const order = require('./src/controllers/order');
 const authMiddleware = require('./src/middleware/auth');
 
-router.get('/', authMiddleware, (req, res) => {
-  res.send('asda');
+router.get('/', (req, res) => {
+  res.status(200).json({message: 'abc'});
 });
 
 router.post('/signin', auth.singIn);

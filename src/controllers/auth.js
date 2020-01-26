@@ -48,22 +48,23 @@ const refreshToken = (req, res) => {
 };
 
 const singIn = (req, res) => {
-  if (!req.body) {
-    res.status(400).json({message: 'Invalid params'});
+  if (!req.body || !req.body.email || !req.body.password) {
+    res.status(400).json({message: 'invalid_params'});
+    return;
   }
   const {email, password} = req.body;
   User.findOne({email})
-    .exec()
     .then(user => {
       if (!user) {
-        res.status(401).json({message: 'User does not exist!'});
+        res.status(401).json({message: 'user_does_not_exist'});
+        return;
       }
       const isValid = bCrypt.compareSync(password, user.password);
       if (isValid) {
         updateToken(user._id).then(tokens => res.json({tokens}));
         return;
       }
-      res.status(401).json({message: 'Invalid credentials!'});
+      res.status(401).json({message: 'invalid_credentials'});
     })
     .catch(error => {
       console.log(error);
@@ -73,19 +74,19 @@ const singIn = (req, res) => {
 
 const singUp = (req, res) => {
   if (!req.body) {
-    res.status(400).json({message: 'Invalid params'});
+    res.status(400).json({message: 'invalid_params'});
     return;
   }
 
   const {name, email, password} = req.body;
   if (!name || !email || !password) {
-    res.status(400).json({message: 'Invalid params'});
+    res.status(400).json({message: 'invalid_params'});
     return;
   }
 
   User.findOne({email}).then(user => {
     if (user) {
-      res.status(401).json({message: 'User exist!'});
+      res.status(401).json({message: 'user_exist'});
       return;
     }
 
