@@ -1,14 +1,19 @@
-const jwt = require('jsonwebtoken');
-const {secret} = require('../../config').jwt;
+import * as jwt from 'jsonwebtoken';
+import config from '../../config';
 
-module.exports = (req, res, next) => {
+interface IPayload {
+  type: string;
+  userId: number;
+}
+
+export default (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     res.status(401).json({message: 'token_not_provided'});
     return;
   }
   try {
-    const payload = jwt.verify(authHeader, secret);
+    const payload = jwt.verify(authHeader, config.jwt.secret) as IPayload;
     if (payload.type !== 'access') {
       res.status(401).json({message: 'invalid_token'});
       return;

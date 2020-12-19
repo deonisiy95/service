@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   PORT: process.env.PORT || 3000,
   DATABASE_URL: process.env.DATABASE_URL || 'mongodb://127.0.0.1:27017/geos',
   jwt: {
@@ -13,5 +13,5 @@ module.exports = {
         expiresIn: '1h'
       }
     }
-  },
+  }
 };

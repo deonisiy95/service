@@ -1,10 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const config = require('./config');
+import express from 'express';
+import mongoose from 'mongoose';
+import config from './config';
+import bodyParser from 'body-parser';
 const app = express();
-const bodyParser = require('body-parser');
-require('./src/models');
-const routes = require('./routes');
+import './src/models';
+import routes from './routes';
 
 app.use(bodyParser.json());
 app.use(routes);

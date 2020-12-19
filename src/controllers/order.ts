@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Order = mongoose.model('Order');
 
 const getAll = (req, res) => {
@@ -36,7 +36,7 @@ const remove = (req, res) => {
     .catch(e => res.status(400).json({message: 'Order not exist!'}));
 };
 
-module.exports = {
+export default {
   getAll,
   create,
   put,

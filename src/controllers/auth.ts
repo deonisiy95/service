@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
-const bCrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const {secret} = require('../../config').jwt;
-const authHelper = require('../helpers/authHelper');
-
-const User = mongoose.model('User');
-const Token = mongoose.model('Token');
+import bCrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from '../../config';
+import {NSAuth} from '../@types/auth';
+import authHelper from '../helpers/authHelper';
+import Token from '../models/token';
+import User from '../models/user';
 
 const updateToken = userId => {
   const accessToken = authHelper.generateAccessToken(userId);
@@ -17,11 +16,12 @@ const updateToken = userId => {
   }));
 };
 
-const refreshToken = (req, res) => {
+const refreshToken = (req: NSAuth.TAuthRequest, res: NSAuth.TAuthResponse) => {
   const {refreshToken} = req.body;
   let payload;
+
   try {
-    payload = jwt.verify(refreshToken, secret);
+    payload = jwt.verify(refreshToken, config.jwt.secret);
     if (payload.type !== 'refresh') {
       res.status(400).json({message: 'Invalid token!'});
       return;
@@ -47,11 +47,12 @@ const refreshToken = (req, res) => {
     .catch(error => res.status(400).json({message: error.message}));
 };
 
-const singIn = (req, res) => {
+const singIn = (req: NSAuth.TSignInRequest, res: NSAuth.TSignInResponse) => {
   if (!req.body || !req.body.email || !req.body.password) {
     res.status(400).json({message: 'invalid_params'});
     return;
   }
+
   const {email, password} = req.body;
   User.findOne({email})
     .then(user => {
@@ -59,6 +60,7 @@ const singIn = (req, res) => {
         res.status(401).json({message: 'user_does_not_exist'});
         return;
       }
+
       const isValid = bCrypt.compareSync(password, user.password);
       if (isValid) {
         updateToken(user._id).then(tokens => res.json({tokens}));
@@ -72,7 +74,7 @@ const singIn = (req, res) => {
     });
 };
 
-const singUp = (req, res) => {
+const singUp = (req: NSAuth.TSignUpRequest, res: NSAuth.TSignUpResponse) => {
   if (!req.body) {
     res.status(400).json({message: 'invalid_params'});
     return;
@@ -101,7 +103,7 @@ const singUp = (req, res) => {
   });
 };
 
-module.exports = {
+export default {
   singIn,
   singUp,
   refreshToken
