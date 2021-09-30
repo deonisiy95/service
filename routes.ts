@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
  */
 router.post('/signin', auth.singIn);
 router.post('/refresh-tokens', auth.refreshToken);
-router.post('/singup', auth.singUp);
+router.post('/signup', auth.singUp);
 
 /**
  * Orders
