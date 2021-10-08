@@ -18,7 +18,7 @@ router.post('/signup', auth.singUp);
 /**
  * Orders
  */
-router.get('/orders', order.getAll);
+router.get('/orders', authMiddleware, order.getAll);
 router.post('/orders', authMiddleware, order.create);
 router.put('/orders/:id', authMiddleware, order.put);
 router.delete('/orders/:id', authMiddleware, order.remove);

@@ -32,6 +32,7 @@ const refreshToken = (req: NSAuth.TAuthRequest, res: NSAuth.TAuthResponse) => {
     } else if (error instanceof jwt.JsonWebTokenError) {
       res.status(400).json({message: 'Invalid token!'});
     }
+    return;
   }
 
   Token.findOne({tokenId: payload.id})
@@ -43,7 +44,7 @@ const refreshToken = (req: NSAuth.TAuthRequest, res: NSAuth.TAuthResponse) => {
 
       return updateToken(token.userId);
     })
-    .then(tokens => res.json(tokens))
+    .then(tokens => res.json({tokens}))
     .catch(error => res.status(400).json({message: error.message}));
 };
 

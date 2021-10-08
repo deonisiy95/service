@@ -10,7 +10,9 @@ interface ITokens {
 
 
 declare namespace NSAuth {
-  type TAuthResponse = Response<ITokens | {
+  type TAuthResponse = Response<{
+    tokens: ITokens
+  } | {
     message: string
   }>;
 
