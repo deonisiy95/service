@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 router.post('/signin', auth.singIn);
 router.post('/refresh-tokens', auth.refreshToken);
 router.post('/signup', auth.singUp);
+router.post('/logout', authMiddleware, auth.logout);
 
 /**
  * Orders

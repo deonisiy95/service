@@ -75,6 +75,13 @@ const singIn = (req: NSAuth.TSignInRequest, res: NSAuth.TSignInResponse) => {
     });
 };
 
+const logout = (req, res) => {
+  Token.findOneAndRemove({userId: req.userId})
+    .exec()
+    .then(() => res.json({success: true}))
+    .catch(e => res.status(500).json({message: 'Something is wrong!'}));
+}
+
 const singUp = (req: NSAuth.TSignUpRequest, res: NSAuth.TSignUpResponse) => {
   if (!req.body) {
     res.status(400).json({message: 'invalid_params'});
@@ -107,5 +114,6 @@ const singUp = (req: NSAuth.TSignUpRequest, res: NSAuth.TSignUpResponse) => {
 export default {
   singIn,
   singUp,
-  refreshToken
+  refreshToken,
+  logout
 };
