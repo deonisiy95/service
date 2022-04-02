@@ -1,29 +1,21 @@
-import {Request, Response} from 'express';
-import {ParamsDictionary, Query} from 'express-serve-static-core';
-
-type TRequest<TBody> = Request<ParamsDictionary, any, TBody, Query>;
+import {TRequest, TResponse} from 'src/@types/global';
 
 interface ITokens {
   accessToken: string,
   refreshToken: string
 }
 
-
 declare namespace NSAuth {
-  type TAuthResponse = Response<{
+  type TAuthResponse = TResponse<{
     tokens: ITokens
-  } | {
-    message: string
   }>;
 
   type TAuthRequest = TRequest<{
     refreshToken: string;
   }>;
 
-  type TSignInResponse = Response<{
+  type TSignInResponse = TResponse<{
     tokens: ITokens
-  } | {
-    message: string
   }>;
 
   type TSignInRequest = TRequest<{
@@ -31,10 +23,8 @@ declare namespace NSAuth {
     password: string;
   }>;
 
-  type TSignUpResponse = Response<{
+  type TSignUpResponse = TResponse<{
     tokens: ITokens
-  } | {
-    message: string
   }>;
 
   type TSignUpRequest = TRequest<{

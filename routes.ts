@@ -1,7 +1,9 @@
-import order from './src/controllers/order';
-import authMiddleware from './src/middleware/auth';
 import {Router} from 'express';
-import auth from './src/controllers/auth';
+import auth from 'src/controllers/auth';
+import order from 'src/controllers/order';
+import account from 'src/controllers/account';
+import authMiddleware from 'src/middleware/auth';
+
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -23,5 +25,10 @@ router.get('/orders', authMiddleware, order.getAll);
 router.post('/orders', authMiddleware, order.create);
 router.put('/orders/:id', authMiddleware, order.put);
 router.delete('/orders/:id', authMiddleware, order.remove);
+
+/**
+ *  Account
+ */
+router.get('/info', authMiddleware, account.fullInfo);
 
 export default router;

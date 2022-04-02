@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-const Order = mongoose.model('Order');
+import Order from 'models/order';
 
 const getAll = (req, res) => {
   Order.find({userId: req.userId})
@@ -10,10 +9,12 @@ const getAll = (req, res) => {
 const create = (req, res) => {
   const {name, details, broadcasting} = req.body;
   const {userId} = req;
+
   if (!name || !broadcasting || !userId) {
     res.status(400).json({message: 'Invalid params!'});
     return;
   }
+
   Order.create({
     name,
     details,
