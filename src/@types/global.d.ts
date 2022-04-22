@@ -1,7 +1,7 @@
 import {ParamsDictionary, Query, Send, Response, Request} from 'express-serve-static-core';
 
 export type TRequest<ReqBody> = Request<ParamsDictionary, any, ReqBody, Query> & {
-  userId: number;
+  userId?: number;
 };
 
 export interface TResponse<ResBody> extends Response {

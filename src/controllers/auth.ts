@@ -6,7 +6,7 @@ import authHelper from '../helpers/authHelper';
 import Token from '../models/token';
 import User from '../models/user';
 
-const updateToken = userId => {
+const updateToken = (userId: number) => {
   const accessToken = authHelper.generateAccessToken(userId);
   const refreshToken = authHelper.generateRefreshToken();
 

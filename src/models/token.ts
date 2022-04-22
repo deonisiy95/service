@@ -1,8 +1,8 @@
 import mongoose, {Schema, Document} from 'mongoose';
 
-export interface IToken extends Document{
+export interface IToken extends Document {
   tokenId: string,
-  userId: string
+  userId: number
 }
 
 const token = new Schema({

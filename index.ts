@@ -2,10 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import config from './config';
-const app = express();
+import './pathAlias';
 import './src/models';
 import routes from './routes';
 import csp from './src/middleware/csp';
+
+const app = express();
 
 app.use(bodyParser.json());
 app.use(csp);
