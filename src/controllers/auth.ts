@@ -1,10 +1,11 @@
+import jwt, {JwtPayload} from 'jsonwebtoken';
 import bCrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import config from '../../config';
-import {NSAuth} from '../@types/auth';
-import authHelper from '../helpers/authHelper';
-import Token from '../models/token';
-import User from '../models/user';
+import authHelper from 'src/helpers/authHelper';
+import Token from 'src/models/token';
+import User from 'src/models/user';
+import {NSAuth} from 'src/@types/auth';
+import {TRequest, TResponse} from 'src/@types/global';
 
 const updateToken = (userId: number) => {
   const accessToken = authHelper.generateAccessToken(userId);
@@ -21,7 +22,7 @@ const refreshToken = (req: NSAuth.TAuthRequest, res: NSAuth.TAuthResponse) => {
   let payload;
 
   try {
-    payload = jwt.verify(refreshToken, config.jwt.secret);
+    payload = jwt.verify(refreshToken, config.jwt.secret) as JwtPayload;
     if (payload.type !== 'refresh') {
       res.status(400).json({message: 'Invalid token!'});
       return;
@@ -58,7 +59,9 @@ const singIn = (req: NSAuth.TSignInRequest, res: NSAuth.TSignInResponse) => {
   User.findOne({email})
     .then(user => {
       if (!user) {
-        res.status(401).json({message: 'user_does_not_exist'});
+        res.status(401).json({message: 'invalid_credentials'});
+
+        // log user_does_not_exist
         return;
       }
 
@@ -75,7 +78,7 @@ const singIn = (req: NSAuth.TSignInRequest, res: NSAuth.TSignInResponse) => {
     });
 };
 
-const logout = (req, res) => {
+const logout = (req: TRequest<{}>, res: TResponse<{}>) => {
   Token.findOneAndRemove({userId: req.userId})
     .exec()
     .then(() => res.json({success: true}))

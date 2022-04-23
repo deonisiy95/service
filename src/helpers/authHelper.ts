@@ -1,11 +1,11 @@
 import * as jwt from 'jsonwebtoken';
-import uuid from 'uuid/v4';
+import {v4 as uuid} from 'uuid';
 import mongoose from 'mongoose';
 import config from '../../config';
 
 const Token = mongoose.model('Token');
 
-const generateAccessToken = userId => {
+const generateAccessToken = (userId: number) => {
   const payload = {
     userId,
     type: config.jwt.tokens.access.type
@@ -32,7 +32,7 @@ const generateRefreshToken = () => {
   };
 };
 
-const replaceDbRefreshToken = (tokenId, userId) =>
+const replaceDbRefreshToken = (tokenId: string, userId: number) =>
   Token.findOneAndRemove({userId})
     .exec()
     .then(() => Token.create({tokenId, userId}));

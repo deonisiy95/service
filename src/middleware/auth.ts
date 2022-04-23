@@ -1,12 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 import config from '../../config';
+import {TRequest, TResponse} from 'src/@types/global';
 
 interface IPayload {
   type: string;
   userId: number;
 }
 
-export default (req, res, next) => {
+export default (req: TRequest<unknown>, res: TResponse<unknown>, next: Function) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     res.status(401).json({message: 'token_not_provided'});
