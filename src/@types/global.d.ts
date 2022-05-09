@@ -6,6 +6,7 @@ export type TRequest<ReqBody> = Request<ParamsDictionary, any, ReqBody, Query> &
 
 export interface TResponse<ResBody> extends Response {
   json: Send<ResBody | {
-    message: string;
+    ok?: boolean;
+    message?: string;
   }, this>;
 }

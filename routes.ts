@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import auth from 'src/controllers/auth';
-import order from 'src/controllers/order';
+import widget from 'src/controllers/widget';
 import account from 'src/controllers/account';
 import authMiddleware from 'src/middleware/auth';
 
@@ -19,12 +19,12 @@ router.post('/signup', auth.singUp);
 router.post('/logout', authMiddleware, auth.logout);
 
 /**
- * Orders
+ * Widgets
  */
-router.get('/orders', authMiddleware, order.getAll);
-router.post('/orders', authMiddleware, order.create);
-router.put('/orders/:id', authMiddleware, order.put);
-router.delete('/orders/:id', authMiddleware, order.remove);
+router.get('/widgets', authMiddleware, widget.getAll);
+router.post('/widgets', authMiddleware, widget.create);
+router.put('/widgets/:id', authMiddleware, widget.put);
+// router.delete('/widgets/:id', authMiddleware, widget.remove);
 
 /**
  *  Account

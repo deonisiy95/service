@@ -81,7 +81,7 @@ const singIn = (req: NSAuth.TSignInRequest, res: NSAuth.TSignInResponse) => {
 const logout = (req: TRequest<{}>, res: TResponse<{}>) => {
   Token.findOneAndRemove({userId: req.userId})
     .exec()
-    .then(() => res.json({success: true}))
+    .then(() => res.json({ok: true}))
     .catch(e => res.status(500).json({message: 'Something is wrong!'}));
 }
 
