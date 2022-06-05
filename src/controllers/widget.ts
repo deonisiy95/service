@@ -6,6 +6,7 @@ import {
   TCreateWidgetResponse
 } from 'src/@types/widget';
 import {TRequest, TResponse} from 'src/@types/global';
+import {generateString} from 'src/utils/string';
 
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
@@ -22,11 +23,20 @@ const create = (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) => {
     return;
   }
 
+  const widgetId = generateString(10);
+
+  console.log('widgetId', widgetId);
+
   Widget.create({
     name,
     token,
-    userId
-  }).then(widget => res.json(widget));
+    userId,
+    widgetId,
+  }).then(widget => res.json({
+    name: widget.name,
+    token: widget.token,
+    widgetId: widget.widgetId,
+  }));
 };
 
 const put = (req: TRequest<{}>, res: TResponse<{}>) => {

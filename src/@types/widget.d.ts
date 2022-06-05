@@ -10,4 +10,4 @@ export type TCreateWidgetsRequest = TRequest<{
   token: string
 }>;
 
-export type TCreateWidgetResponse = TResponse<IWidget>;
+export type TCreateWidgetResponse = TResponse<Partial<IWidget>>;

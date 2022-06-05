@@ -24,11 +24,18 @@ router.post('/logout', authMiddleware, auth.logout);
 router.get('/widgets', authMiddleware, widget.getAll);
 router.post('/widgets', authMiddleware, widget.create);
 router.put('/widgets/:id', authMiddleware, widget.put);
-// router.delete('/widgets/:id', authMiddleware, widget.remove);
+router.delete('/widgets/:id', authMiddleware, widget.remove);
 
 /**
  *  Account
  */
 router.get('/info', authMiddleware, account.fullInfo);
+
+
+router.get('/config/:id', (req, res) => {
+  res.json({
+    build_number: 123
+  });
+});
 
 export default router;
