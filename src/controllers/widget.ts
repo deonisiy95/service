@@ -7,6 +7,7 @@ import {
 } from 'src/@types/widget';
 import {TRequest, TResponse} from 'src/@types/global';
 import {generateString} from 'src/utils/string';
+import {TelegramApi} from 'src/helpers/telegramApi';
 
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
@@ -14,29 +15,44 @@ const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
     .then(widgets => res.json(widgets));
 };
 
-const create = (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) => {
+const create = async (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) => {
   const {name, token} = req.body;
   const {userId} = req;
 
-  if (!name || !userId) {
+  if (!name || !token || !userId) {
     res.status(400).json({message: 'Invalid params!'});
     return;
   }
 
-  const widgetId = generateString(10);
+  const Api = new TelegramApi(token);
+  let result;
 
-  console.log('widgetId', widgetId);
+  try {
+    result = await Api.getUpdates();
+  } catch (error) {
+    console.log('Error request telegram api', error?.message);
+  }
+
+  console.log(result);
+
+  if (!result?.data?.ok) {
+    return res.status(400).json({message: 'Invalid params!'});
+  }
+
+  const widgetId = generateString(10);
 
   Widget.create({
     name,
     token,
     userId,
-    widgetId,
-  }).then(widget => res.json({
-    name: widget.name,
-    token: widget.token,
-    widgetId: widget.widgetId,
-  }));
+    widgetId
+  }).then(widget =>
+    res.json({
+      name: widget.name,
+      token: widget.token,
+      widgetId: widget.widgetId
+    })
+  );
 };
 
 const put = (req: TRequest<{}>, res: TResponse<{}>) => {

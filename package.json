@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/deonisiy95/service#readme",
   "dependencies": {
+    "axios": "0.27.2",
     "bcrypt": "3.0.7",
     "body-parser": "1.19.0",
     "express": "4.17.1",
