@@ -26,6 +26,8 @@ router.post('/widgets', authMiddleware, widget.create);
 router.put('/widgets/:id', authMiddleware, widget.put);
 router.delete('/widgets/:id', authMiddleware, widget.remove);
 
+router.post('/widgets/check', authMiddleware, widget.check);
+
 /**
  *  Account
  */

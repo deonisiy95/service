@@ -10,3 +10,6 @@ export interface TResponse<ResBody> extends Response {
     message?: string;
   }, this>;
 }
+
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;

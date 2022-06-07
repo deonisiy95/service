@@ -5,6 +5,11 @@ export interface IWidget extends Document {
   token: string,
   userId: string,
   widgetId: string,
+  agents: Array<{
+    id: number,
+    name: string,
+    username: string
+  }>
 }
 
 const widget = new Schema({
@@ -12,6 +17,11 @@ const widget = new Schema({
   token: String,
   userId: String,
   widgetId: String,
+  agents: [{
+    id: Number,
+    name: String,
+    username: String
+  }],
 });
 
 export default mongoose.model<IWidget>('Widget', widget);
