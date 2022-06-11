@@ -6,11 +6,12 @@ import {
   TCreateWidgetResponse,
   TCheckResponse,
   TCheckRequest
-} from "src/@types/widget";
+} from 'src/@types/widget';
 import {TRequest, TResponse} from 'src/@types/global';
 import {generateString} from 'src/utils/string';
 import {TelegramApi} from 'src/helpers/telegramApi';
 import {getSendersInfo} from 'src/utils/telegram';
+import normalizer from 'src/normalizers/widget';
 
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
@@ -32,15 +33,22 @@ const create = async (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) =>
     id: agent.id,
     name: agent.name,
     username: agent.username
-  }))
+  }));
+
+  const widget = await Widget.findOne({token}).exec();
+
+  if (widget) {
+    res.status(400).json({message: 'Token already use'});
+    return;
+  }
 
   Widget.create({
     name,
     token,
     userId,
     widgetId,
-    agentIds: widgetAgents
-  }).then(() => res.json({ok: true}));
+    agents: widgetAgents
+  }).then(widget => res.json(normalizer(widget)));
 };
 
 const check = async (req: TCheckRequest, res: TCheckResponse) => {

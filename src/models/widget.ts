@@ -1,27 +1,31 @@
 import mongoose, {Schema, Document} from 'mongoose';
 
-export interface IWidget extends Document {
-  name: string,
-  token: string,
-  userId: string,
-  widgetId: string,
+export interface IWidget {
+  name: string;
+  token: string;
+  userId: string;
+  widgetId: string;
   agents: Array<{
-    id: number,
-    name: string,
-    username: string
-  }>
+    id: number;
+    name: string;
+    username: string;
+  }>;
 }
+
+export interface IWidgetDoc extends IWidget, Document {}
 
 const widget = new Schema({
   name: String,
   token: String,
   userId: String,
   widgetId: String,
-  agents: [{
-    id: Number,
-    name: String,
-    username: String
-  }],
+  agents: [
+    {
+      id: Number,
+      name: String,
+      username: String
+    }
+  ]
 });
 
-export default mongoose.model<IWidget>('Widget', widget);
+export default mongoose.model<IWidgetDoc>('Widget', widget);
