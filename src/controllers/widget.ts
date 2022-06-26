@@ -16,7 +16,9 @@ import normalizer from 'src/normalizers/widget';
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
     .exec()
-    .then(widgets => res.json(widgets));
+    .then(widgets => {
+      return res.json((widgets || []).map(normalizer));
+    });
 };
 
 const create = async (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) => {
