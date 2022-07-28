@@ -85,7 +85,7 @@ const check = async (req: TCheckRequest, res: TCheckResponse) => {
     agents.push(getSendersInfo(update.message.from));
   }
 
-  res.json(agents);
+  res.json({agents});
 };
 
 const getAgents = async (req: any, res: any) => {

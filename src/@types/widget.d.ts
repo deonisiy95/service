@@ -18,7 +18,7 @@ export type TCheckRequest = TRequest<{
   token: string
 }>;
 
-export type TCheckResponse = TResponse<IWidget['agents']>;
+export type TCheckResponse = TResponse<{agents: IWidget['agents']}>;
 
 export type TSetAgentsRequest = TRequest<{
   name: string,
