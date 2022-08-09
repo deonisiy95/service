@@ -58,7 +58,7 @@ const check = async (req: TCheckRequest, res: TCheckResponse) => {
   const {userId} = req;
 
   if (!name || !token || !userId) {
-    res.status(400).json({message: 'Invalid params!'});
+    res.status(400).json({message: 'Invalid params'});
     return;
   }
 
@@ -72,7 +72,7 @@ const check = async (req: TCheckRequest, res: TCheckResponse) => {
   }
 
   if (!updates?.ok) {
-    return res.status(400).json({message: 'Invalid params!'});
+    return res.status(400).json({message: 'Invalid token'});
   }
 
   const agents = [];
