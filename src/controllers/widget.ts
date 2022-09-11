@@ -82,7 +82,11 @@ const check = async (req: TCheckRequest, res: TCheckResponse) => {
       continue;
     }
 
-    agents.push(getSendersInfo(update.message.from));
+    const agent = agents.find(item => item.id === update.message.from.id);
+
+    if (!agent) {
+      agents.push(getSendersInfo(update.message.from));
+    }
   }
 
   res.json({agents});
