@@ -120,8 +120,17 @@ const getAgents = async (req: any, res: any) => {
   return res.json([]);
 };
 
-const put = (req: TRequest<{}>, res: TResponse<{}>) => {
-  Widget.findOneAndUpdate({_id: req.params.id, userId: req.userId}, req.body)
+const update = (req: TRequest<{name: string}>, res: TResponse<{}>) => {
+  const {name} = req.body;
+
+  if (!req.params.id || !name) {
+    res.status(400).json({message: 'Invalid params'});
+    return;
+  }
+
+  Widget.findOneAndUpdate({widgetId: req.params.id, userId: req.userId}, {
+    name
+  })
     .exec()
     .then(() => res.json({ok: true}))
     .catch(() => res.status(400).json({message: 'Widget not exist!'}));
@@ -137,8 +146,9 @@ const remove = (req: TRequest<{}>, res: TResponse<{}>) => {
 export default {
   getAll,
   create,
-  put,
+  update,
   remove,
   getAgents,
-  check
+  check,
+
 };

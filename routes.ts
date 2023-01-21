@@ -23,9 +23,8 @@ router.post('/logout', authMiddleware, auth.logout);
  */
 router.get('/widgets', authMiddleware, widget.getAll);
 router.post('/widgets', authMiddleware, widget.create);
-router.put('/widgets/:id', authMiddleware, widget.put);
+router.post('/widgets/:id', authMiddleware, widget.update);
 router.delete('/widgets/:id', authMiddleware, widget.remove);
-
 router.post('/widgets/check', authMiddleware, widget.check);
 
 /**
