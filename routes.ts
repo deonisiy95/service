@@ -2,6 +2,7 @@ import {Router} from 'express';
 import auth from 'src/controllers/auth';
 import widget from 'src/controllers/widget';
 import account from 'src/controllers/account';
+import form from 'src/controllers/form';
 import authMiddleware from 'src/middleware/auth';
 
 const router = Router();
@@ -26,6 +27,7 @@ router.post('/widgets', authMiddleware, widget.create);
 router.post('/widgets/:id', authMiddleware, widget.update);
 router.delete('/widgets/:id', authMiddleware, widget.remove);
 router.post('/widgets/check', authMiddleware, widget.check);
+router.post('/widgets/form/:id', authMiddleware, form.update);
 
 /**
  *  Account

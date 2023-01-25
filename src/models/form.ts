@@ -1,15 +1,11 @@
 import mongoose, {Schema, Document} from 'mongoose';
-
-export interface IForm {
-  widgetId: string;
-  config: string;
-}
+import {IForm} from 'src/@types/form';
 
 export interface IFormDoc extends IForm, Document {}
 
 const form = new Schema({
   widgetId: String,
-  config: String,
+  config: String
 });
 
 export default mongoose.model<IFormDoc>('Form', form);
