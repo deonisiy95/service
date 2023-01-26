@@ -1,6 +1,16 @@
 import Form from 'models/form';
 import Widget from 'models/widget';
-import {TUpdateFormRequest, TUpdateFormResponse} from 'src/@types/form';
+import {IForm, TUpdateFormRequest, TUpdateFormResponse} from 'src/@types/form';
+import normalizer from 'src/normalizers/form';
+import {TRequest, TResponse} from 'src/@types/global';
+
+const getOne = (req: TRequest<{}>, res: TResponse<IForm>) => {
+  Form.findOne({widgetId: req.params.id})
+    .exec()
+    .then(form => {
+      return res.json(form ? normalizer(form) : {});
+    });
+};
 
 const update = async (req: TUpdateFormRequest, res: TUpdateFormResponse) => {
   const {config} = req.body;
@@ -26,5 +36,6 @@ const update = async (req: TUpdateFormRequest, res: TUpdateFormResponse) => {
 };
 
 export default {
+  getOne,
   update
 };

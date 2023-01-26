@@ -28,6 +28,7 @@ router.post('/widgets/:id', authMiddleware, widget.update);
 router.delete('/widgets/:id', authMiddleware, widget.remove);
 router.post('/widgets/check', authMiddleware, widget.check);
 router.post('/widgets/form/:id', authMiddleware, form.update);
+router.get('/widgets/form/:id', authMiddleware, form.getOne);
 
 /**
  *  Account
