@@ -15,4 +15,13 @@ export class TelegramApi {
 
     return axios.get<TGetUpdates>(url).then(response => response.data);
   }
+
+  public sendMessage(chantId: number, text: string): Promise<TGetUpdates>  {
+    const url = `${DOMAIN}/bot${this.token}/sendMessage?chat_id${chantId}`;
+
+    return axios.post<TGetUpdates>(url, {
+      chat_id: chantId,
+      text
+    }).then(response => response.data);
+  }
 }
