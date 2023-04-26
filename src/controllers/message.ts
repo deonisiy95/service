@@ -1,9 +1,13 @@
 import Widget from 'models/widget';
 import Message from 'models/message';
-import {TAddMessageRequest} from 'src/@types/message';
+import {
+  TAddMessageRequest,
+  TGetMessageListRequest,
+  TGetMessageListResponse
+} from 'src/@types/message';
 import {TResponse} from 'src/@types/global';
-import { TelegramApi } from 'src/helpers/telegramApi';
-import { formatMessage } from 'src/helpers/text';
+import {TelegramApi} from 'src/helpers/telegramApi';
+import {formatMessage} from 'src/helpers/text';
 
 const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
   const {data} = req.body;
@@ -31,8 +35,9 @@ const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
 
   const telegramApi = new TelegramApi(widget.token);
 
-  widget.agents.forEach((agent) => {
-    telegramApi.sendMessage(agent.id, formatMessage(preparedData))
+  widget.agents.forEach(agent => {
+    telegramApi
+      .sendMessage(agent.id, formatMessage(preparedData))
       .catch(error => console.log('Error send order in Telegram', error));
   });
 
@@ -44,6 +49,49 @@ const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
     });
 };
 
+const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse) => {
+  const offset = req.body.offset ?? 0;
+  const limit = req.body.limit ?? 10;
+  const widgetId = req.params.id;
+
+  if (!widgetId) {
+    res.status(400).json({message: 'Invalid params'});
+    return;
+  }
+
+  try {
+    const widgets = await Widget.find({userId: req.userId}, {widgetId: 1, _id: 0});
+
+    if (widgets.length === 0) {
+      res.json({ok: true, messages: []});
+      return;
+    }
+
+    const widgetIds = widgets.map(item => item.widgetId);
+
+    const messages = await Message.aggregate([
+      {$match: {widgetId: {$in: widgetIds}}},
+      {
+        $project: {
+          _id: 0,
+          data: 1,
+          createdAt: 1,
+          widgetId: 1
+        }
+      }
+    ]);
+
+    res.json({
+      ok: true,
+      messages
+    });
+  } catch (error) {
+    console.log('Error get messages', req.params.id, error);
+    res.status(500).json({message: 'Internal error'});
+  }
+};
+
 export default {
-  add
+  add,
+  getList
 };
