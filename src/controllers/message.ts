@@ -52,9 +52,8 @@ const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
 const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse) => {
   const offset = req.body.offset ?? 0;
   const limit = req.body.limit ?? 10;
-  const widgetId = req.params.id;
 
-  if (!widgetId) {
+  if (!req.userId) {
     res.status(400).json({message: 'Invalid params'});
     return;
   }

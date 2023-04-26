@@ -35,7 +35,7 @@ router.get('/widgets/form/:id', form.getOne);
  * Messages
  */
 router.post('/widgets/form/:id/message', message.add);
-router.get('/widgets/form/:id/messages', authMiddleware, message.getList);
+router.get('/widgets/messages', authMiddleware, message.getList);
 
 /**
  *  Account
