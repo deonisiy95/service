@@ -78,7 +78,9 @@ const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse
           createdAt: 1,
           widgetId: 1
         }
-      }
+      },
+      { $skip : offset },
+      { $limit : limit }
     ]);
 
     res.json({
