@@ -40,7 +40,7 @@ router.get('/widgets/messages', authMiddleware, message.getList);
 /**
  *  Account
  */
-router.get('/info', authMiddleware, account.fullInfo);
+router.get('/account', authMiddleware, account.fullInfo);
 
 
 router.get('/config/:id', (req, res) => {
