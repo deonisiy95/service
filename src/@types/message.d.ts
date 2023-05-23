@@ -21,5 +21,6 @@ export type TGetMessageListRequest = TRequest<{
 }>;
 
 export type TGetMessageListResponse = TResponse<{
-  messages: Array<IMessage>
+  total: number;
+  messages: Array<IMessage>;
 }>;

@@ -82,9 +82,12 @@ const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse
       { $limit : limit }
     ]);
 
+    const total = await Message.find({widgetId: {$in: widgetIds}}).count();
+
     res.json({
       ok: true,
-      messages
+      messages,
+      total
     });
   } catch (error) {
     console.log('Error get messages', req.params.id, error);
