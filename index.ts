@@ -15,7 +15,7 @@ app.use(csp);
 app.use(routes);
 
 mongoose
-  .connect(config.DATABASE_URL, {useNewUrlParser: true})
+  .connect(config.DATABASE_URL)
   .then(() => {
     app.listen(config.PORT, () => {
       console.log(`Server listening on port ${config.PORT}...`);

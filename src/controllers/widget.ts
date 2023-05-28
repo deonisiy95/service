@@ -1,4 +1,4 @@
-import Widget from 'models/widget';
+import Widget, {IWidget} from 'models/widget';
 import {
   TGetWidgetRequest,
   TGetWidgetsResponse,
@@ -68,14 +68,14 @@ const check = async (req: TCheckRequest, res: TCheckResponse) => {
   try {
     updates = await Api.getUpdates();
   } catch (error) {
-    console.log('Error request telegram api', error?.message);
+    console.log('Error request telegram api', (error as Error)?.message);
   }
 
   if (!updates?.ok) {
     return res.status(400).json({message: 'Invalid token'});
   }
 
-  const agents = [];
+  const agents: IWidget['agents'] = [];
 
   for (let update of updates?.result ?? []) {
     if (!update.message?.from) {
@@ -114,7 +114,7 @@ const getAgents = async (req: any, res: any) => {
 
     return res.json(agents);
   } catch (error) {
-    console.log('Error getAgents', error?.message);
+    console.log('Error getAgents', (error as Error)?.message);
   }
 
   return res.json([]);
@@ -128,9 +128,12 @@ const update = (req: TRequest<{name: string}>, res: TResponse<{}>) => {
     return;
   }
 
-  Widget.findOneAndUpdate({widgetId: req.params.id, userId: req.userId}, {
-    name
-  })
+  Widget.findOneAndUpdate(
+    {widgetId: req.params.id, userId: req.userId},
+    {
+      name
+    }
+  )
     .exec()
     .then(() => res.json({ok: true}))
     .catch(() => res.status(400).json({message: 'Widget not exist!'}));
@@ -149,6 +152,5 @@ export default {
   update,
   remove,
   getAgents,
-  check,
-
+  check
 };

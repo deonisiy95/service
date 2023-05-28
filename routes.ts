@@ -42,7 +42,6 @@ router.get('/widgets/messages', authMiddleware, message.getList);
  */
 router.get('/account', authMiddleware, account.fullInfo);
 
-
 router.get('/config/:id', (req, res) => {
   res.json({
     build_number: 123
