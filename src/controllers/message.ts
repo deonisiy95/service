@@ -50,8 +50,8 @@ const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
 };
 
 const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse) => {
-  const offset = req.body.offset ?? 0;
-  const limit = req.body.limit ?? 10;
+  const offset = req.query.offset ?? 0;
+  const limit = req.query.limit ?? 10;
 
   if (!req.userId) {
     res.status(400).json({message: 'Invalid params'});
@@ -72,14 +72,14 @@ const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse
       {$match: {widgetId: {$in: widgetIds}}},
       {
         $project: {
-          _id: 0,
+          _id: 1,
           data: 1,
           createdAt: 1,
           widgetId: 1
         }
       },
-      { $skip : offset },
-      { $limit : limit }
+      { $skip : Number(offset)},
+      { $limit : Number(limit) }
     ]);
 
     const total = await Message.find({widgetId: {$in: widgetIds}}).count();
