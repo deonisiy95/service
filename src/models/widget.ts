@@ -28,4 +28,6 @@ const widget = new Schema({
   ]
 });
 
+widget.index({widgetId: 1});
+
 export default mongoose.model<IWidgetDoc>('Widget', widget);

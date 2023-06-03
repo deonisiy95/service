@@ -78,8 +78,9 @@ const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse
           widgetId: 1
         }
       },
-      { $skip : Number(offset)},
-      { $limit : Number(limit) }
+      {$sort: {createdAt: -1}},
+      {$skip: Number(offset)},
+      {$limit: Number(limit)}
     ]);
 
     const total = await Message.find({widgetId: {$in: widgetIds}}).count();
