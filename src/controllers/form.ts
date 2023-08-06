@@ -3,6 +3,7 @@ import Widget from 'models/widget';
 import {IForm, TUpdateFormRequest, TUpdateFormResponse} from 'src/@types/form';
 import normalizer from 'src/normalizers/form';
 import {TRequest, TResponse} from 'src/@types/global';
+import {logger} from 'src/helpers/logger';
 
 const getOne = (req: TRequest<{}>, res: TResponse<IForm>) => {
   Form.findOne({widgetId: req.params.id})
@@ -30,7 +31,7 @@ const update = async (req: TUpdateFormRequest, res: TUpdateFormResponse) => {
   Form.findOneAndUpdate({widgetId: req.params.id}, {config}, {new: true, upsert: true})
     .then(() => res.json({ok: true}))
     .catch(error => {
-      console.log('Error update form', req.params.id, req.userId, error);
+      logger.error('Error update form', req.params.id, req.userId, error);
       res.status(500).json({message: 'Internal error'});
     });
 };

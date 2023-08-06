@@ -8,6 +8,7 @@ import {
 import {TResponse} from 'src/@types/global';
 import {TelegramApi} from 'src/helpers/telegramApi';
 import {formatMessage} from 'src/helpers/text';
+import {logger} from 'src/helpers/logger';
 
 const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
   const {data} = req.body;
@@ -38,13 +39,13 @@ const add = async (req: TAddMessageRequest, res: TResponse<{}>) => {
   widget.agents.forEach(agent => {
     telegramApi
       .sendMessage(agent.id, formatMessage(preparedData))
-      .catch(error => console.log('Error send order in Telegram', error));
+      .catch(error => logger.error('Error send order in Telegram', error));
   });
 
   Message.create({widgetId: req.params.id, data: preparedData, createdAt: Date.now()})
     .then(() => res.json({ok: true}))
     .catch(error => {
-      console.log('Error create message', req.params.id, error);
+      logger.error('Error create message', req.params.id, error);
       res.status(500).json({message: 'Internal error'});
     });
 };
@@ -91,7 +92,7 @@ const getList = async (req: TGetMessageListRequest, res: TGetMessageListResponse
       total
     });
   } catch (error) {
-    console.log('Error get messages', req.params.id, error);
+    logger.error('Error get messages', req.params.id, error);
     res.status(500).json({message: 'Internal error'});
   }
 };

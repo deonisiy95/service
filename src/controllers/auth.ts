@@ -6,6 +6,7 @@ import Token from 'src/models/token';
 import User from 'src/models/user';
 import {NSAuth} from 'src/@types/auth';
 import {TRequest, TResponse} from 'src/@types/global';
+import {logger} from 'src/helpers/logger';
 
 const updateToken = (userId: number) => {
   const accessToken = authHelper.generateAccessToken(userId);
@@ -73,7 +74,7 @@ const singIn = (req: NSAuth.TSignInRequest, res: NSAuth.TSignInResponse) => {
       res.status(401).json({message: 'invalid_credentials'});
     })
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({message: error.message});
     });
 };
@@ -83,7 +84,7 @@ const logout = (req: TRequest<{}>, res: TResponse<{}>) => {
     .exec()
     .then(() => res.json({ok: true}))
     .catch(e => res.status(500).json({message: 'Something is wrong!'}));
-}
+};
 
 const singUp = (req: NSAuth.TSignUpRequest, res: NSAuth.TSignUpResponse) => {
   if (!req.body) {

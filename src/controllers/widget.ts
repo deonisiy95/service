@@ -12,6 +12,7 @@ import {generateString} from 'src/utils/string';
 import {TelegramApi} from 'src/helpers/telegramApi';
 import {getSendersInfo} from 'src/utils/telegram';
 import normalizer from 'src/normalizers/widget';
+import {logger} from 'src/helpers/logger';
 
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
@@ -68,7 +69,7 @@ const check = async (req: TCheckRequest, res: TCheckResponse) => {
   try {
     updates = await Api.getUpdates();
   } catch (error) {
-    console.log('Error request telegram api', (error as Error)?.message);
+    logger.error('Error request telegram api', (error as Error)?.message);
   }
 
   if (!updates?.ok) {
@@ -114,7 +115,7 @@ const getAgents = async (req: any, res: any) => {
 
     return res.json(agents);
   } catch (error) {
-    console.log('Error getAgents', (error as Error)?.message);
+    logger.error('Error getAgents', (error as Error)?.message);
   }
 
   return res.json([]);

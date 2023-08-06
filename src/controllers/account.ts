@@ -1,5 +1,6 @@
 import User from 'models/user';
 import {TFullInfoInResponse, TFullInfoInRequest} from 'src/@types/account';
+import {logger} from 'src/helpers/logger';
 
 const fullInfo = (req: TFullInfoInRequest, res: TFullInfoInResponse) => {
   User.findById(req.userId)
@@ -18,7 +19,7 @@ const fullInfo = (req: TFullInfoInRequest, res: TFullInfoInResponse) => {
       });
     })
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({message: error.message});
     });
 };
