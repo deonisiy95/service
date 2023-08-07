@@ -54,7 +54,7 @@ const logger = winston.createLogger({
       }
     }
   ),
-  transports: [new winston.transports.File({filename: 'logs.txt'})]
+  transports: [new winston.transports.File({filename: '/var/log/api_logs.txt'})]
 });
 
 export {logger};

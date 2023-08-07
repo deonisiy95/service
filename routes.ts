@@ -5,6 +5,7 @@ import account from 'src/controllers/account';
 import form from 'src/controllers/form';
 import message from 'src/controllers/message';
 import authMiddleware from 'src/middleware/auth';
+import {logger} from 'src/helpers/logger';
 
 const router = Router();
 
@@ -25,7 +26,7 @@ router.post('/logout', authMiddleware, auth.logout);
  */
 router.get('/widgets', authMiddleware, widget.getAll);
 router.post('/widgets', authMiddleware, widget.create);
-router.post('/widgets/:id', authMiddleware, widget.update);
+router.patch('/widgets/:id', authMiddleware, widget.update);
 router.delete('/widgets/:id', authMiddleware, widget.remove);
 router.post('/widgets/check', authMiddleware, widget.check);
 router.post('/widgets/form/:id', authMiddleware, form.update);
@@ -43,6 +44,7 @@ router.get('/widgets/messages', authMiddleware, message.getList);
 router.get('/account', authMiddleware, account.fullInfo);
 
 router.get('/config/:id', (req, res) => {
+  logger.info('logger work kjnsd3', {sasd: 123});
   res.json({
     build_number: 123
   });
