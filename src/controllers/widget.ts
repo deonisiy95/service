@@ -1,4 +1,5 @@
 import Widget, {IWidget} from 'models/widget';
+import Form from 'models/form';
 import {
   TGetWidgetRequest,
   TGetWidgetsResponse,
@@ -13,6 +14,9 @@ import {TelegramApi} from 'src/helpers/telegramApi';
 import {getSendersInfo} from 'src/utils/telegram';
 import normalizer from 'src/normalizers/widget';
 import {logger} from 'src/helpers/logger';
+
+const DEFAULT_FORM =
+  '[{"type":"input","value":{"title":"Hello","text":"How do you like our site?","placeholder":"","is_require":false,"is_multiline":false}}]';
 
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
@@ -44,6 +48,11 @@ const create = async (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) =>
     res.status(400).json({message: 'Token already use'});
     return;
   }
+
+  Form.create({
+    widgetId,
+    config: DEFAULT_FORM
+  });
 
   Widget.create({
     name,
