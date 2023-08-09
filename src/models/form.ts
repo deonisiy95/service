@@ -5,7 +5,12 @@ export interface IFormDoc extends IForm, Document {}
 
 const form = new Schema({
   widgetId: String,
-  config: String
+  config: String,
+  label: {
+    text: String,
+    icon: String,
+    color: String
+  }
 });
 
 export default mongoose.model<IFormDoc>('Form', form);

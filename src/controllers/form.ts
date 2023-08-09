@@ -14,9 +14,9 @@ const getOne = (req: TRequest<{}>, res: TResponse<IForm>) => {
 };
 
 const update = async (req: TUpdateFormRequest, res: TUpdateFormResponse) => {
-  const {config} = req.body;
+  const {config, label} = req.body;
 
-  if (!req.params.id || !config) {
+  if (!req.params.id || (!config && !label)) {
     res.status(400).json({message: 'Invalid params'});
     return;
   }
@@ -28,7 +28,12 @@ const update = async (req: TUpdateFormRequest, res: TUpdateFormResponse) => {
     return;
   }
 
-  Form.findOneAndUpdate({widgetId: req.params.id}, {config}, {new: true, upsert: true})
+  const updates: Partial<IForm> = {};
+
+  config && (updates.config = config);
+  label && (updates.label = label);
+
+  Form.findOneAndUpdate({widgetId: req.params.id}, updates, {new: true, upsert: true})
     .then(() => res.json({ok: true}))
     .catch(error => {
       logger.error('Error update form', req.params.id, req.userId, error);

@@ -17,6 +17,11 @@ import {logger} from 'src/helpers/logger';
 
 const DEFAULT_FORM =
   '[{"type":"input","value":{"title":"Hello","text":"How do you like our site?","placeholder":"","is_require":false,"is_multiline":false}}]';
+const DEFAULT_LABEL_FORM = {
+  text: '',
+  color: '#f5bfab',
+  icon: 'question'
+}
 
 const getAll = (req: TGetWidgetRequest, res: TGetWidgetsResponse) => {
   Widget.find({userId: req.userId})
@@ -51,7 +56,8 @@ const create = async (req: TCreateWidgetsRequest, res: TCreateWidgetResponse) =>
 
   Form.create({
     widgetId,
-    config: DEFAULT_FORM
+    config: DEFAULT_FORM,
+    label: DEFAULT_LABEL_FORM
   });
 
   Widget.create({

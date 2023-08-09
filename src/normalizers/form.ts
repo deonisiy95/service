@@ -4,6 +4,7 @@ import {IForm} from 'src/@types/form';
 export default function(form: IFormDoc): IForm {
   return {
     widgetId: form.widgetId,
-    config: form.config
+    config: form.config,
+    label: form.label
   };
 }
