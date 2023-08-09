@@ -1,25 +1,27 @@
 import cors from 'cors';
+import {TRequest} from 'src/@types/global';
 
-type StaticOrigin = boolean | string | RegExp | (boolean | string | RegExp)[];
+const allowDomains = ['http://app.askio.ru', 'https://app.askio.ru', 'http://localhost:8080'];
+const noCorsRoutes = ['/config/', '/widgets/form/'];
 
-const whitelist = ['http://app.askio.ru', 'https://app.askio.ru', 'http://localhost:8080'];
+const corsOptionsDelegate = (req: TRequest<unknown>, callback: Function) => {
+  const corsOptions = {
+    origin: false,
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS']
+  };
+  const origin = req.header('Origin');
 
-const corsOptions = {
-  origin: (
-    origin: string | undefined,
-    callback: (err: Error | null, origin?: StaticOrigin) => void
-  ) => {
-    let access = false;
+  if (origin && allowDomains.includes(origin)) {
+    corsOptions.origin = true;
+  } else {
+    const isNoCorsRoute = noCorsRoutes.some(route => req?.originalUrl?.startsWith(route));
 
-    if (origin && whitelist.includes(origin)) {
-      access = true;
-    }
+    isNoCorsRoute && (corsOptions.origin = true);
+  }
 
-    callback(null, access);
-  },
-  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS']
+  callback(null, corsOptions);
 };
 
-const csp = cors(corsOptions);
+const csp = cors(corsOptionsDelegate);
 
 export {csp};

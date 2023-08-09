@@ -5,13 +5,8 @@ import account from 'src/controllers/account';
 import form from 'src/controllers/form';
 import message from 'src/controllers/message';
 import authMiddleware from 'src/middleware/auth';
-import {logger} from 'src/helpers/logger';
 
 const router = Router();
-
-router.get('/', (req, res) => {
-  res.status(200).json({message: 'test'});
-});
 
 /**
  * Auth
@@ -44,7 +39,6 @@ router.get('/widgets/messages', authMiddleware, message.getList);
 router.get('/account', authMiddleware, account.fullInfo);
 
 router.get('/config/:id', (req, res) => {
-  logger.info('logger work kjnsd3', {sasd: 123});
   res.json({
     build_number: 123
   });
