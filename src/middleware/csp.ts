@@ -1,18 +1,25 @@
-import {TRequest, TResponse} from 'src/@types/global';
+import cors from 'cors';
 
-// export default (req: TRequest<unknown>, res: TResponse<unknown>, next: Function) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//   next();
-// };
-export default (req: TRequest<unknown>, res: TResponse<unknown>, next: Function) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self' askio.ru *.askio.ru; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'"
-  );
-  res.setHeader('Access-Control-Allow-Origin', 'http://app.askio.ru');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
+type StaticOrigin = boolean | string | RegExp | (boolean | string | RegExp)[];
+
+const whitelist = ['http://app.askio.ru', 'https://app.askio.ru', 'http://localhost:8080'];
+
+const corsOptions = {
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, origin?: StaticOrigin) => void
+  ) => {
+    let access = false;
+
+    if (origin && whitelist.includes(origin)) {
+      access = true;
+    }
+
+    callback(null, access);
+  },
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS']
 };
+
+const csp = cors(corsOptions);
+
+export {csp};

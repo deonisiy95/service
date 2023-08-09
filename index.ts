@@ -5,7 +5,7 @@ import config from './config';
 import './pathAlias';
 import './src/models';
 import routes from './routes';
-import csp from './src/middleware/csp';
+import {csp} from 'src/middleware/csp';
 
 const app = express();
 
