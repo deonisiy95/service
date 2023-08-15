@@ -7,6 +7,9 @@ Backend part of the service for sending forms from the website to the telegram m
 - MongoDB
 - JWT Authentication
 
+
+![scheme](demo/scheme.png)
+
 ## Pre-requisites
 - Install [Node.js](https://nodejs.org/en/) version 16
 - Install MongoDB
