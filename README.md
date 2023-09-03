@@ -11,6 +11,9 @@ Backend part of the [service](http://askio.ru/) for sending forms from the websi
 - MongoDB
 - JWT Authentication
 
+
+![scheme](demo/scheme.png)
+
 ## Pre-requisites
 - Install [Node.js](https://nodejs.org/en/) version 16
 - Install MongoDB
